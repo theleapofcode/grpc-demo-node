@@ -1,0 +1,42 @@
+syntax = "proto3";
+
+message User {
+    int32 id = 1;
+    string firstName = 2;
+    string lastName = 3;
+    string email = 4;
+}
+
+message GetAllUsersRequest {}
+
+message GetUserByEmailRequest {
+    string email = 1;
+}
+
+message UserRequest {
+    User user = 1;
+}
+
+message UserResponse {
+    User user = 1;
+}
+
+message AddPhotoRequest {
+    bytes data = 1;
+}
+
+message AddPhotoResponse {
+    bool ok = 1;
+}
+
+service UserService {
+    rpc GetUserByEmail (GetUserByEmailRequest) returns (UserResponse);
+
+    rpc GetAllUsers (GetAllUsersRequest) returns (stream UserResponse);
+
+    rpc SaveUser (UserRequest) returns (UserResponse);
+
+    rpc SaveAllUsers (stream UserRequest) returns (stream UserResponse);
+
+    rpc AddPhoto (stream AddPhotoRequest) returns (AddPhotoResponse);
+}
